@@ -10,6 +10,10 @@ module.exports = {
       accounts: [process.env.TestPK || ""],
     },
     klaytn: {
+      url: "https://klaytn01.fandom.finance",
+      accounts: [process.env.PK || ""],
+    },
+    baobab: {
       url: "https://public-node-api.klaytnapi.com/v1/baobab",
       accounts: [process.env.TestPK || ""],
     },
