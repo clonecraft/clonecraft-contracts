@@ -7,7 +7,7 @@ module.exports = {
   networks: {
     popcateum: {
       url: "https://dataseed.popcateum.org",
-      accounts: [process.env.TestPK || ""],
+      accounts: [process.env.TEST_PK || ""],
     },
     klaytn: {
       url: "https://klaytn01.fandom.finance",
@@ -15,7 +15,7 @@ module.exports = {
     },
     baobab: {
       url: "https://public-node-api.klaytnapi.com/v1/baobab",
-      accounts: [process.env.TestPK || ""],
+      accounts: [process.env.TEST_PK || ""],
     },
   },
   abiExporter: {
