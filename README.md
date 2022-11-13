@@ -41,6 +41,7 @@ npx hardhat run --network klaytn ./scripts/asset.js
 
 - V3 CA:
 - Asset CA:
+- Nectar CA: 0x39076d7a914017e04f6c0f67d88f4162625e8d1d
 
 
 
