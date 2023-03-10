@@ -19,7 +19,7 @@ contract BatchMint {
 
 	function batchMint(address to, uint256 num) public onlyDev {
 		for (uint256 i = 0; i < num; i++) {
-			nft.safeMint(to);
+			nft.mint(to);
 		}
 	}
 
