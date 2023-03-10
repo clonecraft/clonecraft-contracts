@@ -15,14 +15,17 @@ contract ClonesNeverDieV3 is ERC721, ERC721Enumerable, Pausable, Ownable, ERC721
 	event SetFreeze(uint256 indexed tokenId, bool status);
 
 	string private _baseTokenURI;
-	uint256 public maxSupply;
+	uint256 internal maxSupply;
 	address public devAddress;
 	address public mintContract;
 	address public freezeContract;
 	address public proxyContract;
-	
+
 	mapping(address => bool) public blacklist;
 	mapping(uint256 => bool) public freeze;
+	mapping(address => bool) public allowedMintAddressList;
+	mapping(address => bool) public allowedFreezeAddressList;
+	mapping(address => bool) public allowedProxyAddressList;
 
 	Counters.Counter private _tokenIdCounter;
 
@@ -38,20 +41,20 @@ contract ClonesNeverDieV3 is ERC721, ERC721Enumerable, Pausable, Ownable, ERC721
 	}
 
 	modifier onlyMinter() {
-		require(_msgSender() == mintContract);
+		require(allowedMintAddressList[_msgSender()], "This address is not allowed to mint");
 		_;
 	}
 
 	modifier onlyFreezer() {
-		require(_msgSender() == freezeContract);
+		require(allowedFreezeAddressList[_msgSender()], "This address is not allowed to freeze");
 		_;
 	}
 
-	function safeMint(address to) public onlyMinter {
+	function mint(address to) public onlyMinter {
 		require(totalSupply() < maxSupply, "Mint end.");
 		uint256 tokenId = _tokenIdCounter.current();
+		_mint(to, tokenId);
 		_tokenIdCounter.increment();
-		_safeMint(to, tokenId);
 		emit Mint(tokenId, to);
 	}
 
@@ -75,16 +78,20 @@ contract ClonesNeverDieV3 is ERC721, ERC721Enumerable, Pausable, Ownable, ERC721
 		maxSupply = _maxSupply;
 	}
 
-	function setMintContract(address _ca) public onlyDev {
-		mintContract = _ca;
+	function getMaxSupply() public view returns (uint256) {
+		return maxSupply;
 	}
 
-	function setFreezeContract(address _ca) public onlyDev {
-		freezeContract = _ca;
+	function setMintContract(address _ca, bool _isAllow) public onlyDev {
+		allowedMintAddressList[_ca] = _isAllow;
 	}
 
-	function setProxyContract(address _ca) public onlyDev {
-		proxyContract = _ca;
+	function setFreezeContract(address _ca, bool _isAllow) public onlyDev {
+		allowedFreezeAddressList[_ca] = _isAllow;
+	}
+
+	function setProxyContract(address _ca, bool _isAllow) public onlyDev {
+		allowedProxyAddressList[_ca] = _isAllow;
 	}
 
 	function setBlacklist(address user, bool status) external onlyDev {
@@ -98,7 +105,7 @@ contract ClonesNeverDieV3 is ERC721, ERC721Enumerable, Pausable, Ownable, ERC721
 	}
 
 	function isApprovedForAll(address _owner, address _operator) public view override returns (bool isOperator) {
-		if (_operator == proxyContract) {
+		if (allowedProxyAddressList[_operator]) {
 			return true;
 		}
 		return ERC721.isApprovedForAll(_owner, _operator);
@@ -108,11 +115,7 @@ contract ClonesNeverDieV3 is ERC721, ERC721Enumerable, Pausable, Ownable, ERC721
 		return _baseTokenURI;
 	}
 
-	function _beforeTokenTransfer(
-		address from,
-		address to,
-		uint256 tokenId
-	) internal override(ERC721, ERC721Enumerable) whenNotPaused {
+	function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal override(ERC721, ERC721Enumerable) whenNotPaused {
 		super._beforeTokenTransfer(from, to, tokenId);
 		require(!freeze[tokenId], "This token is frozen");
 		require(!blacklist[from] && !blacklist[to], "BLACKLIST");

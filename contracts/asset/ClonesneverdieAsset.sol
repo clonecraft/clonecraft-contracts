@@ -12,16 +12,15 @@ import "../openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
 contract ClonesNeverDieAsset is Context, ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply {
 	using Strings for uint256;
 
-	event SetAssetType(uint256 indexed id, uint256 indexed _type);
-	event SetBlacklist(address indexed user, bool status);
+	event SetBlacklist(address indexed user, bool state);
 
 	string private baseURI;
 	string public constant NAME = "Clones Never Die Asset";
 	string public constant SYMBOL = "CNDASS";
 	address public devAddress;
-	address public mintContract;
-	address public proxyContract;
 
+	mapping(address => bool) public allowedMintAddressList;
+	mapping(address => bool) public allowedProxyAddressList;
 	mapping(address => bool) public blacklist;
 
 	modifier onlyDev() {
@@ -30,7 +29,7 @@ contract ClonesNeverDieAsset is Context, ERC1155, Ownable, Pausable, ERC1155Burn
 	}
 
 	modifier onlyMinter() {
-		require(_msgSender() == mintContract);
+		require(allowedMintAddressList[_msgSender()], "This address is not allowed to mint");
 		_;
 	}
 
@@ -73,17 +72,17 @@ contract ClonesNeverDieAsset is Context, ERC1155, Ownable, Pausable, ERC1155Burn
 		devAddress = _devAddress;
 	}
 
-	function setMintContract(address _ca) public onlyDev {
-		mintContract = _ca;
+	function setMintContract(address _ca, bool _isAllow) public onlyDev {
+		allowedMintAddressList[_ca] = _isAllow;
 	}
 
-	function setProxyContract(address _ca) public onlyDev {
-		proxyContract = _ca;
+	function setProxyContract(address _ca, bool _isAllow) public onlyDev {
+		allowedProxyAddressList[_ca] = _isAllow;
 	}
 
-	function setBlacklist(address user, bool status) external onlyDev {
-		blacklist[user] = status;
-		emit SetBlacklist(user, status);
+	function setBlacklist(address user, bool state) external onlyDev {
+		blacklist[user] = state;
+		emit SetBlacklist(user, state);
 	}
 
 	function name() external pure returns (string memory) {
@@ -100,7 +99,7 @@ contract ClonesNeverDieAsset is Context, ERC1155, Ownable, Pausable, ERC1155Burn
 	}
 
 	function isApprovedForAll(address _owner, address _operator) public view override returns (bool isOperator) {
-		if (_operator == proxyContract) {
+		if (allowedProxyAddressList[_operator]) {
 			return true;
 		}
 		return super.isApprovedForAll(_owner, _operator);
