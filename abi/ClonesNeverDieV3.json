@@ -201,6 +201,63 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "allowedFreezeAddressList",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "allowedMintAddressList",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "allowedProxyAddressList",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "to",
         "type": "address"
       },
@@ -331,6 +388,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "getMaxSupply",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -355,16 +425,16 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "maxSupply",
-    "outputs": [
+    "inputs": [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
       }
     ],
-    "stateMutability": "view",
+    "name": "mint",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -461,19 +531,6 @@
   {
     "inputs": [],
     "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      }
-    ],
-    "name": "safeMint",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -615,6 +672,11 @@
         "internalType": "address",
         "name": "_ca",
         "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "_isAllow",
+        "type": "bool"
       }
     ],
     "name": "setFreezeContract",
@@ -641,6 +703,11 @@
         "internalType": "address",
         "name": "_ca",
         "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "_isAllow",
+        "type": "bool"
       }
     ],
     "name": "setMintContract",
@@ -654,6 +721,11 @@
         "internalType": "address",
         "name": "_ca",
         "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "_isAllow",
+        "type": "bool"
       }
     ],
     "name": "setProxyContract",
