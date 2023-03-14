@@ -47,5 +47,6 @@ npx hardhat run --network klaytn ./scripts/asset.js
 
 ### baobab CA
 
-- V3 CA:
-- Asset CA:
+- V3 CA: 0x7CED8C1340befc3ab605285b7b5FA665ce65Ccd7
+- V3 Sale CA: 0xd09aFC46575D0d30Bd7fB30b31e2744DB8b902E2
+- Asset CA: 0x9122eD280814713585E160303C48bb244C77661a
