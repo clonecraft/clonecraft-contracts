@@ -130,7 +130,7 @@ contract V3Sale is Context, Ownable {
 	bool public isSale = false;
 	uint256 internal salePrice;
 	uint256 public perMintMaxCount;
-	uint256 public constant startUnixTime = 1678287600;
+	uint256 public constant startUnixTime = 1678719600;
 	mapping(uint256 => uint256) public freeSaleCount;
 	mapping(uint256 => mapping(address => bool)) public freeSaleCountPerAddress;
 	mapping(uint256 => mapping(address => uint256)) public saleCountPerAddress;
