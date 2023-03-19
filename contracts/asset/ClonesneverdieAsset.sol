@@ -39,7 +39,7 @@ contract ClonesNeverDieAsset is Context, ERC1155, Ownable, Pausable, ERC1155Burn
 	}
 
 	function setURI(string memory newuri) public onlyDev {
-		_setURI(newuri);
+		baseURI = newuri;
 	}
 
 	function pause() public onlyDev {
