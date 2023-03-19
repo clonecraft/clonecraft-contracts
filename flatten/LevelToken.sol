@@ -1189,18 +1189,18 @@ abstract contract ERC1155Supply is ERC1155 {
 	}
 }
 
-// File contracts/asset/ClonesneverdieAsset.sol
+// File contracts/v3-level/LevelToken.sol
 
 pragma solidity ^0.8.10;
 
-contract ClonesNeverDieAsset is Context, ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply {
+contract LevelToken is Context, ERC1155, Ownable, Pausable, ERC1155Burnable, ERC1155Supply {
 	using Strings for uint256;
 
 	event SetBlacklist(address indexed user, bool state);
 
 	string private baseURI;
-	string public constant NAME = "Clones Never Die Asset";
-	string public constant SYMBOL = "CNDASS";
+	string public constant NAME = "Clonecraft Level Token";
+	string public constant SYMBOL = "CCLT";
 	address public devAddress;
 
 	mapping(address => bool) public allowedMintAddressList;
