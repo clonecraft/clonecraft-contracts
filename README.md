@@ -50,6 +50,8 @@ npx hardhat run --network klaytn ./scripts/asset.js
 - EquipStorage CA: 0x96af25ea7065636C3dE1379b235EC7EF07F1A7e0
 - ClonecraftEquip CA: 0x3acbc08c9AD397AaB86852CF24Eb86417dD91B48
 - Price Calculator CA: 0xe07d5CF13Dd2376230e68bFE7A352e4AA2Ac7389
+- AssetAirdrop CA: 0x151Fe667D66f9e3d35654EC5b0ac1C24183cD9E9
+- AssetBurn CA: 0xDd0d4dA6264354104b50e5b830E7Deb594EA54d1
 
 ### baobab CA
 
