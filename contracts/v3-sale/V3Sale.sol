@@ -20,7 +20,7 @@ contract V3Sale is Context, Ownable {
 
 	modifier saleMintRole(uint256 numberOfTokens) {
 		require(isSale, "The sale has not started.");
-		require(numberOfTokens <= perMintMaxCount, "Can only mint 20 Clones at a time");
+		require(numberOfTokens <= perMintMaxCount);
 		require(nft.totalSupply() + numberOfTokens <= nft.getMaxSupply(), "Purchase would exceed max supply of Clones");
 		require(saleCountPerAddress[getSaleEpoch()][msg.sender] < perMintMaxCount, "Can only mint 9 Clones at a time");
 		require(saleCountPerAddress[getSaleEpoch()][msg.sender] + numberOfTokens <= perMintMaxCount, "Can only mint 9 Clones at a time");
@@ -53,8 +53,9 @@ contract V3Sale is Context, Ownable {
 	}
 
 	function withdraw() public payable onlyCreator {
-		(bool success1, ) = cnd.call{ value: address(this).balance / 2 }("");
-		(bool success2, ) = dsc.call{ value: address(this).balance / 2 }("");
+		uint256 _balance = address(this).balance;
+		(bool success1, ) = cnd.call{ value: _balance / 2 }("");
+		(bool success2, ) = dsc.call{ value: _balance / 2 }("");
 		if (!success1 || !success2) {
 			revert("Ether transfer failed");
 		}
